@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/blogParseFragment">
+
+    <fragment
+        android:id="@+id/blogParseFragment"
+        android:name="com.truecaller.truecallerblog.ui.view.BlogParseFragment"
+        android:label="@string/blog_parse_fragment"
+        tools:layout="@layout/fragment_blog_parse" />
+
+</navigation>

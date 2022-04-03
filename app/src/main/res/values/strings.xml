@@ -1,0 +1,7 @@
+<resources>
+    <string name="blog_parse_fragment">Blog Parse Fragment</string>
+    <string name="fetch_blog_data">Fetch Blog Data</string>
+    <string name="no_data_found">No  Data Found</string>
+    <string name="empty_value">""</string>
+
+</resources>
