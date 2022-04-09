@@ -22,5 +22,11 @@ sealed class DataState {
      * @constructor Create  Error
      */
     data class Error(val exception: Exception) : DataState()
+
+    /**
+     * Loading
+     *
+     * @constructor Create empty Loading
+     */
     object Loading : DataState()
 }

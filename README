@@ -56,3 +56,6 @@ All network related calls has been decoupled from modules and  made through API 
 Used Android Jetpack component to match with google coding standard
 Easier to write unit test case
 Handled Error scenario partially due to limited time slot.
+
+#REF
+for "data" package->https://github.com/android/architecture-samples/tree/dev-todo-mvvm-live/todoapp/app/src/main/java/com/example/android/architecture/blueprints/todoapp/data

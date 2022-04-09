@@ -1,11 +1,7 @@
 package com.truecaller.truecallerblog.di
 
-import com.truecaller.truecallerblog.contract.BlogDataSource
 import com.truecaller.truecallerblog.contract.Repository
 import com.truecaller.truecallerblog.contract.UseCase
-import com.truecaller.truecallerblog.data.BlogRemoteDataSource
-import com.truecaller.truecallerblog.data.RemoteDataSource
-import com.truecaller.truecallerblog.data.api.BlogService
 import com.truecaller.truecallerblog.data.helper.*
 import com.truecaller.truecallerblog.domain.BlogContentUseCase
 import com.truecaller.truecallerblog.utils.DataState
@@ -37,9 +33,8 @@ class AppModule {
     @Provides
     fun provideBlogContentUseCase(
         repository: Repository<DataState>,
-        helperFactory: DataHelper<String>,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
-    ): UseCase<DataState> = BlogContentUseCase(repository, helperFactory, ioDispatcher)
+    ): UseCase<DataState> = BlogContentUseCase(repository, ioDispatcher)
 
     /**
      * Provide operation helper factory
@@ -47,27 +42,11 @@ class AppModule {
      * @return
      */
     @Provides
-    fun provideOperationHelperFactory(
+    fun provideDataHelperFactory(
         @TenthCharacter tenthChar: TenthCharacterHelper,
         @EveryTenthCharacter everyTenthChar: EveryTenthCharacterHelper,
         @DistinctWordCount distinctWordCount: DistinctWordCountHelper
     ): DataHelper<String> = DataHelperFactory(
         tenthChar, everyTenthChar, distinctWordCount
     )
-
-    /**
-     * Provide blog remote data source factory
-     *
-     * @param apiService
-     * @param ioDispatcher
-     * @return
-     */
-    @RemoteDataSource
-    @Provides
-    fun provideBlogRemoteDataSourceFactory(
-        apiService: BlogService,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
-    ): BlogDataSource<DataState> =
-        BlogRemoteDataSource(apiService, ioDispatcher)
-
 }

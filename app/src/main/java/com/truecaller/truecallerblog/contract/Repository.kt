@@ -19,4 +19,24 @@ interface Repository<T> {
      */
     suspend fun getBlogContent(): T
 
+    /**
+     * Get tenth character
+     *
+     * @return
+     */
+    suspend fun getTenthCharacter(): T
+
+    /**
+     * Get every tenth character
+     *
+     * @return
+     */
+    suspend fun getEveryTenthCharacter(): T
+
+    /**
+     * Get distinct word count
+     *
+     * @return
+     */
+    suspend fun getDistinctWordCount(): T
 }

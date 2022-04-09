@@ -2,7 +2,6 @@ package com.truecaller.truecallerblog.domain
 
 import com.truecaller.truecallerblog.contract.Repository
 import com.truecaller.truecallerblog.contract.UseCase
-import com.truecaller.truecallerblog.data.helper.DataHelper
 import com.truecaller.truecallerblog.di.IoDispatcher
 import com.truecaller.truecallerblog.utils.DataState
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -24,7 +23,6 @@ import javax.inject.Inject
 @ViewModelScoped
 class BlogContentUseCase @Inject constructor(
     override val repository: Repository<DataState>,
-    private val dataHelper: DataHelper<String>,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : UseCase<DataState> {
 
@@ -38,14 +36,14 @@ class BlogContentUseCase @Inject constructor(
         supervisorScope {
             emit(DataState.Loading)
             val tenthCharacter = async(ioDispatcher) {
-                getTenthCharacter()
+                repository.getTenthCharacter()
 
             }
             val everyTenthChar = async(ioDispatcher) {
-                getEveryTenthCharacter()
+                repository.getEveryTenthCharacter()
             }
             val distinctWordCount = async(ioDispatcher) {
-                getDistinctWordCount()
+                repository.getDistinctWordCount()
             }
 
             emit(tenthCharacter.await())
@@ -53,70 +51,5 @@ class BlogContentUseCase @Inject constructor(
             emit(distinctWordCount.await())
         }
     }
-
-    /**
-     * Get tenth character Count return the 10th character index item
-     *
-     * @return [DataState]
-     */
-    private suspend fun getTenthCharacter(): DataState {
-        return when (val blogDataState = repository.getBlogContent()) {
-            is DataState.Success -> {
-                DataState.Success(
-                    dataHelper
-                        .getTenthCharacter(
-                            blogDataState.data.toString()
-                        )
-                )
-            }
-            else -> {
-                blogDataState
-            }
-        }
-    }
-
-
-    /**
-     * Get every tenth character.
-     *
-     * @return [DataState]
-     */
-    private suspend fun getEveryTenthCharacter(): DataState {
-        return when (val blogDataState = repository.getBlogContent()) {
-            is DataState.Success -> {
-                DataState.Success(
-                    dataHelper
-                        .getEveryTenthCharacter(
-                            blogDataState.data.toString()
-                        )
-                )
-            }
-            else -> {
-                blogDataState
-            }
-        }
-    }
-
-    /**
-     * Get distinct word count.
-     *
-     * @return [DataState]
-     */
-    private suspend fun getDistinctWordCount(): DataState {
-        return when (val blogDataState = repository.getBlogContent()) {
-            is DataState.Success -> {
-                DataState.Success(
-                    dataHelper
-                        .getDistinctWordCount(
-                            blogDataState.data.toString()
-                        )
-                )
-            }
-            else -> {
-                blogDataState
-            }
-        }
-    }
-
 
 }

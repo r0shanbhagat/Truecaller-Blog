@@ -2,7 +2,11 @@ package com.truecaller.truecallerblog.di
 
 import com.truecaller.truecallerblog.contract.BlogDataSource
 import com.truecaller.truecallerblog.contract.Repository
+import com.truecaller.truecallerblog.data.BlogRemoteDataSource
 import com.truecaller.truecallerblog.data.BlogRepository
+import com.truecaller.truecallerblog.data.RemoteDataSource
+import com.truecaller.truecallerblog.data.api.BlogService
+import com.truecaller.truecallerblog.data.helper.DataHelper
 import com.truecaller.truecallerblog.utils.DataState
 import dagger.Module
 import dagger.Provides
@@ -28,7 +32,24 @@ class RepositoryModule {
      */
     @Provides
     fun provideMovieRepository(
-        blogDataSource: BlogDataSource<DataState>,
+        @RemoteDataSource blogDataSource: BlogDataSource<DataState>,
+        dataHelper: DataHelper<String>,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
-    ): Repository<DataState> = BlogRepository(blogDataSource, ioDispatcher)
+    ): Repository<DataState> = BlogRepository(blogDataSource, dataHelper, ioDispatcher)
+
+    /**
+     * Provide blog remote data source
+     *
+     * @param apiService
+     * @param ioDispatcher
+     * @return
+     */
+    @RemoteDataSource
+    @Provides
+    fun provideBlogRemoteDataSource(
+        apiService: BlogService,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher
+    ): BlogDataSource<DataState> =
+        BlogRemoteDataSource(apiService, ioDispatcher)
+
 }
