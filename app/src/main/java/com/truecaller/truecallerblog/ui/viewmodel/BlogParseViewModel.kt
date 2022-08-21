@@ -60,6 +60,45 @@ class BlogParseViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Call 5 service synchronously
+     */
+    //    private fun tempSynchronousCall() {
+//        repeat(5) {
+//            val job = viewModelScope.launch {
+//                when (val response = respository.getWeatherInfo()) {
+//                    is NetworkResult.Success -> {
+//                        _dataState.postValue(response)
+//                    }
+//                }
+//            }
+//            job.join() //ensure the serial execution
+//        }
+//    }
+
+    /**
+     * Call 5 service async and merge the result
+     */
+//    private fun tempASynchronousCall() {
+//        val deferedJobs = ArrayList<Deferred<NetworkResult.Response>>()
+//
+//        repeat(5) {
+//            val deferredJob = async(Dispatchers.IO) {
+//                respository.getWeatherInfo()
+//            }
+//            deferedJobs.add(deferredJob)
+//        }
+//
+//        deferedJobs.awaitAll().foreach { response ->
+//            when (response) {
+//                is NetworkResult.Success -> {
+//                    _dataState.postValue(response)
+//                }
+//            }
+//        }
+//
+//    }
+
 }
 
 

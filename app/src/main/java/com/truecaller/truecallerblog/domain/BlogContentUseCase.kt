@@ -35,20 +35,16 @@ class BlogContentUseCase @Inject constructor(
     override suspend fun getBlogContent(): Flow<DataState> = flow {
         supervisorScope {
             emit(DataState.Loading)
-            val tenthCharacter = async(ioDispatcher) {
-                repository.getTenthCharacter()
+            async(ioDispatcher) {
+                emit(repository.getTenthCharacter())
+            }
+            async(ioDispatcher) {
+                emit(repository.getEveryTenthCharacter())
+            }
+            async(ioDispatcher) {
+                emit(repository.getDistinctWordCount())
+            }
 
-            }
-            val everyTenthChar = async(ioDispatcher) {
-                repository.getEveryTenthCharacter()
-            }
-            val distinctWordCount = async(ioDispatcher) {
-                repository.getDistinctWordCount()
-            }
-
-            emit(tenthCharacter.await())
-            emit(everyTenthChar.await())
-            emit(distinctWordCount.await())
         }
     }
 
